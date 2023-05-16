@@ -1,31 +1,8 @@
-@extends('layouts.app')
-
-@section('template_title')
-    {{ __('Update') }} Estudiante
-@endsection
-
-@section('content')
-    <section class="content container-fluid">
-        <div class="">
-            <div class="col-md-12">
-
-                @includeif('partials.errors')
-
-                <div class="card card-default">
-                    <div class="card-header">
-                        <span class="card-title">{{ __('Update') }} Estudiante</span>
-                    </div>
-                    <div class="card-body">
-                        <form method="POST" action="{{ route('estudiantes.update', $estudiante->id) }}"  role="form" enctype="multipart/form-data">
-                            {{ method_field('PATCH') }}
-                            @csrf
-
-                            @include('estudiante.form')
-
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-@endsection
+EDITOR DE ESTUDIANTE
+<br>
+<form action="{{ url('/estudiante/'.$estudiante->id ) }}" method="post">
+   @csrf
+   {{ method_field('PATCH')}}
+    @include('estudiante.form')
+    <input type="button" onclick="window.location='{{ route('estudiante.index') }}'" value="Volver al índice" class="btn btn-primary">
+</form>
