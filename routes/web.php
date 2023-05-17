@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\CarreraController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EstudianteController;
+use Illuminate\Support\Facades\Auth;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,7 +16,7 @@ use App\Http\Controllers\EstudianteController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('layouts.app');
 });
 /*
 Route::get('/estudiante', function () {
@@ -23,4 +25,10 @@ Route::get('/estudiante', function () {
 
 Route::get('/estudiante/create',[EstudianteController::class,'create']);
 */
-Route::resource('estudiante',EstudianteController::class);
+Route::resource('estudiantes',EstudianteController::class);
+Auth::routes();
+Route::resource('carreras',CarreraController::class);
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/dashboard', function () {
+    return view('dashboard.dashboard');
+})->name('dashboard.dashboard');

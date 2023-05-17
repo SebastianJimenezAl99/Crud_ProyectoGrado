@@ -5,72 +5,105 @@ namespace App\Http\Controllers;
 use App\Models\Estudiante;
 use Illuminate\Http\Request;
 
+/**
+ * Class EstudianteController
+ * @package App\Http\Controllers
+ */
 class EstudianteController extends Controller
 {
     /**
      * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $datos['estudiantes']=Estudiante::paginate(5);
-        return view('estudiante.index',$datos);
+        $estudiantes = Estudiante::paginate();
+
+        return view('estudiante.index', compact('estudiantes'))
+            ->with('i', (request()->input('page', 1) - 1) * $estudiantes->perPage());
     }
 
     /**
      * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
      */
     public function create()
     {
-       
-        return view('estudiante.create');
+        $estudiante = new Estudiante();
+        return view('estudiante.create', compact('estudiante'));
     }
 
     /**
      * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        $datosEstudiante = request()->except('_token');
-        Estudiante::insert($datosEstudiante);
-       // return response()->json($datosEstudiante);
-       return redirect()->route('estudiante.index');
+        request()->validate(Estudiante::$rules);
+
+        $estudiante = Estudiante::create($request->all());
+
+        return redirect()->route('estudiantes.index')
+            ->with('success', 'Estudiante created successfully.');
     }
 
     /**
      * Display the specified resource.
+     *
+     * @param  int $id
+     * @return \Illuminate\Http\Response
      */
-    public function show(Estudiante $estudiante)
+    public function show($id)
     {
-        //
+        $estudiante = Estudiante::find($id);
+
+        return view('estudiante.show', compact('estudiante'));
     }
 
     /**
      * Show the form for editing the specified resource.
+     *
+     * @param  int $id
+     * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        $estudiante=Estudiante::findOrFail($id);
-        return view('estudiante.edit', compact('estudiante') );
+        $estudiante = Estudiante::find($id);
+
+        return view('estudiante.edit', compact('estudiante'));
     }
 
     /**
      * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @param  Estudiante $estudiante
+     * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,  $id)
+    public function update(Request $request, Estudiante $estudiante)
     {
-        $datosEstudiante = request()->except(['_token','_method']);
-        Estudiante::where('id','=',$id)->update($datosEstudiante);
+        request()->validate(Estudiante::$rules);
 
-        return redirect()->route('estudiante.index');
+        $estudiante->update($request->all());
 
+        return redirect()->route('estudiantes.index')
+            ->with('success', 'Estudiante updated successfully');
     }
 
     /**
-     * Remove the specified resource from storage.
+     * @param int $id
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
      */
     public function destroy($id)
     {
-        Estudiante::destroy($id);
-        return redirect('estudiante');
+        $estudiante = Estudiante::find($id)->delete();
+
+        return redirect()->route('estudiantes.index')
+            ->with('success', 'Estudiante deleted successfully');
     }
 }
