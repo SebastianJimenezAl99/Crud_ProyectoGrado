@@ -13,13 +13,18 @@
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.5.1/css/bootstrap.min.css">
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 </head>
 <body>
     <header class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-            <nav class="navbar-nav">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
                         <a href="{{ route('dashboard.dashboard') }}" class="nav-link">Dashboard</a>
@@ -28,13 +33,16 @@
                         <a class="nav-link" href="{{ route('estudiantes.index') }}">Estudiantes</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="{{ route('profesores.index') }}">Profesores</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="{{ route('carreras.index') }}">Carreras</a>
                     </li>
                 </ul>
-            </nav>
+            </div>
         </div>
-    </header> 
-
+    </header>
+    
     <div id="app">
         <main class="py-4">
             @yield('content')

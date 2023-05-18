@@ -3,6 +3,7 @@
 use App\Http\Controllers\CarreraController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EstudianteController;
+use App\Http\Controllers\ProfesoreController;
 use Illuminate\Support\Facades\Auth;
 /*
 |--------------------------------------------------------------------------
@@ -28,6 +29,7 @@ Route::get('/estudiante/create',[EstudianteController::class,'create']);
 Route::resource('estudiantes',EstudianteController::class);
 Auth::routes();
 Route::resource('carreras',CarreraController::class);
+Route::resource('profesores',ProfesoreController::class);
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/dashboard', function () {
     return view('dashboard.dashboard');
