@@ -18,8 +18,11 @@ use Illuminate\Support\Facades\Auth;
 */
 
 Route::get('/', function () {
-    return view('layouts.app');
+    return view('welcome');
 });
+Route::get('/welcome', function () {
+    return view('welcome');
+})->name('welcome');
 /*
 Route::get('/estudiante', function () {
     return view('estudiante.index');
@@ -27,14 +30,32 @@ Route::get('/estudiante', function () {
 
 Route::get('/estudiante/create',[EstudianteController::class,'create']);
 */
-Route::resource('estudiantes',EstudianteController::class);
-Auth::routes();
-Route::resource('carreras',CarreraController::class);
-Route::resource('profesores',ProfesoreController::class);
+// Route::resource('estudiantes',EstudianteController::class);
+// Route::resource('coordinadores',CoordinadoreController::class);
+// Route::resource('carreras',CarreraController::class);
+// Route::resource('profesores',ProfesoreController::class);
+// Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
+
+
+Route::middleware(['auth'])->group(function () {
+    Route::prefix('home')->group(function () {
+        Route::resource('estudiantes',EstudianteController::class);
+        Route::resource('coordinadores',CoordinadoreController::class);
+        Route::resource('carreras',CarreraController::class);
+        Route::resource('profesores',ProfesoreController::class);
+        Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
+    });
+});
+
+
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 //Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
 // Route::get('/dashboard', function () {
 //     return view('dashboard');
 // })->name('dashboard');
-Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
-Route::resource('coordinadores',CoordinadoreController::class);
+
+Auth::routes();
+
+
+Route::post('/logout', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
+

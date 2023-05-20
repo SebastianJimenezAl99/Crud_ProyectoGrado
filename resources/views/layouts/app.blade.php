@@ -19,13 +19,14 @@
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 </head>
 <body>
+    @if(Auth::check())
     <header class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
+                <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('dashboard') }}">Dashboard</a>
                     </li>
@@ -42,10 +43,21 @@
                         <a class="nav-link" href="{{ route('carreras.index') }}">Carreras</a>
                     </li>
                 </ul>
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item">
+                        <form action="{{ route('logout') }}" method="POST">
+                            @csrf
+                            <button type="submit" class="nav-link btn btn-link">{{ Auth::user()->name }} -Cerrar sesión</button>
+                        </form>
+                    </li>
+                </ul>
             </div>
         </div>
     </header>
-      <div id="app">
+    
+    
+    @endif
+    <div id="app">
         <main class="py-4">
         @if(empty(trim($__env->yieldContent('content'))))
             <script>window.location.href = "{{ route('dashboard') }}";</script>
@@ -56,6 +68,7 @@
     </div>
 
     <!-- Bibliotecas de Bootstrap y jQuery -->
+    <script src="{{ asset('../resources/js/app.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <script>
