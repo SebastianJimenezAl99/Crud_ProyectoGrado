@@ -2,29 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Carrera;
 use Illuminate\Http\Request;
 use App\Models\Estudiante;
+use App\Models\Carrera;
+use App\Models\Coordinadore;
+use App\Models\Profesore;
 
-/**
- * Class CarreraController
- * @package App\Http\Controllers
- */
 class DashboardController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-
-     public function index()
+    public function index()
     {
-        $carreras = Carrera::paginate();
-        $estudiantes = Estudiante::paginate();
+        $totalEstudiantes = Estudiante::count();
+        $totalCarreras = Carrera::count();
+        $totalProfesores = Profesore::count();
+        $totalCoordinadores = Coordinadore::count();
 
-        return view('dashboard', compact('estudiantes', 'carreras'));
+        return view('dashboard', compact('totalEstudiantes', 'totalCarreras', 'totalProfesores', 'totalCoordinadores'));
     }
-
-
 }

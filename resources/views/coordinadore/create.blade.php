@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('template_title')
-    {{ __('Create') }} Profesore
+    {{ __('Create') }} Coordinadore
 @endsection
 
 @section('content')
@@ -13,13 +13,13 @@
 
                 <div class="card card-default">
                     <div class="card-header">
-                        <span class="card-title">Crear Profesor</span>
+                        <span class="card-title">Crear Coordinador</span>
                     </div>
                     <div class="card-body">
-                        <form method="POST" action="{{ route('profesores.store') }}"  role="form" enctype="multipart/form-data">
+                        <form method="POST" action="{{ route('coordinadores.store') }}"  role="form" enctype="multipart/form-data">
                             @csrf
 
-                            @include('profesore.form')
+                            @include('coordinadore.form')
 
                         </form>
                     </div>

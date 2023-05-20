@@ -13,15 +13,15 @@ return new class extends Migration
     {
         Schema::create('profesores', function (Blueprint $table) {
             $table->id();
-            $table->String('nroIdentificacion',11)->unique();
-            $table->String('tipoIdentificacion',100);
-            $table->String('nombre',100);
-            $table->String('apellido',100);
-            $table->String('email',100)->unique()->nullable();
-            $table->String('telefono',10)->unique()->nullable();
-            $table->integer('semestre');
-            $table->bigInteger('idCarrera');
+            $table->string('cedula', 11)->unique();
+            $table->string('nombre', 100);
+            $table->string('apellido', 100);
+            $table->string('email', 100)->unique()->nullable();
+            $table->string('telefono', 10)->unique()->nullable();
+            $table->bigInteger('idCarrera')->unsigned();
             $table->timestamps();
+            
+            $table->foreign('idCarrera')->references('id')->on('carreras');
         });
     }
 

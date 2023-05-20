@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class Profesore
+ * Class Coordinadore
  *
  * @property $id
  * @property $cedula
@@ -21,7 +21,7 @@ use Illuminate\Database\Eloquent\Model;
  * @package App
  * @mixin \Illuminate\Database\Eloquent\Builder
  */
-class Profesore extends Model
+class Coordinadore extends Model
 {
     
     static $rules = [

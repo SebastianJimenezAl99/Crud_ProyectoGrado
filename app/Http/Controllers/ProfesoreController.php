@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Carrera;
 use App\Models\Profesore;
 use Illuminate\Http\Request;
 
@@ -20,6 +21,10 @@ class ProfesoreController extends Controller
     {
         $profesores = Profesore::paginate();
 
+        foreach ($profesores as $profesore) {
+            $profesore->carrera = Carrera::find($profesore->idCarrera)->nombre;
+        }
+
         return view('profesore.index', compact('profesores'))
             ->with('i', (request()->input('page', 1) - 1) * $profesores->perPage());
     }
@@ -31,8 +36,9 @@ class ProfesoreController extends Controller
      */
     public function create()
     {
+        $carreras = Carrera::all();
         $profesore = new Profesore();
-        return view('profesore.create', compact('profesore'));
+        return view('profesore.create', compact('profesore', 'carreras'));
     }
 
     /**
@@ -60,7 +66,7 @@ class ProfesoreController extends Controller
     public function show($id)
     {
         $profesore = Profesore::find($id);
-
+        $profesore->carrera = Carrera::find($profesore->idCarrera)->nombre;
         return view('profesore.show', compact('profesore'));
     }
 
@@ -73,8 +79,9 @@ class ProfesoreController extends Controller
     public function edit($id)
     {
         $profesore = Profesore::find($id);
+        $carreras = Carrera::all();
 
-        return view('profesore.edit', compact('profesore'));
+        return view('profesore.edit', compact('profesore', 'carreras'));
     }
 
     /**

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CarreraController;
+use App\Http\Controllers\CoordinadoreController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EstudianteController;
 use App\Http\Controllers\ProfesoreController;
@@ -31,6 +32,9 @@ Auth::routes();
 Route::resource('carreras',CarreraController::class);
 Route::resource('profesores',ProfesoreController::class);
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/dashboard', function () {
-    return view('dashboard.dashboard');
-})->name('dashboard.dashboard');
+//Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->name('dashboard');
+Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
+Route::resource('coordinadores',CoordinadoreController::class);

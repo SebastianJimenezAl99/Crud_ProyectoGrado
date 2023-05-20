@@ -14,11 +14,12 @@ use Illuminate\Database\Eloquent\Model;
  * @property $apellido
  * @property $email
  * @property $telefono
- * @property $semestre
  * @property $idCarrera
+ * @property $semestre
  * @property $created_at
  * @property $updated_at
  *
+ * @property Carrera $carrera
  * @package App
  * @mixin \Illuminate\Database\Eloquent\Builder
  */
@@ -30,8 +31,8 @@ class Estudiante extends Model
 		'tipoIdentificacion' => 'required',
 		'nombre' => 'required',
 		'apellido' => 'required',
-		'semestre' => 'required',
 		'idCarrera' => 'required',
+		'semestre' => 'required',
     ];
 
     protected $perPage = 20;
@@ -41,8 +42,16 @@ class Estudiante extends Model
      *
      * @var array
      */
-    protected $fillable = ['nroIdentificacion','tipoIdentificacion','nombre','apellido','email','telefono','semestre','idCarrera'];
+    protected $fillable = ['nroIdentificacion','tipoIdentificacion','nombre','apellido','email','telefono','idCarrera','semestre'];
 
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function carrera()
+    {
+        return $this->hasOne('App\Models\Carrera', 'id', 'idCarrera');
+    }
+    
 
 }

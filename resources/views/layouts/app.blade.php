@@ -27,7 +27,10 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a href="{{ route('dashboard.dashboard') }}" class="nav-link">Dashboard</a>
+                        <a class="nav-link" href="{{ route('dashboard') }}">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('coordinadores.index') }}">Coordinadores</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('estudiantes.index') }}">Estudiantes</a>
@@ -42,10 +45,13 @@
             </div>
         </div>
     </header>
-    
-    <div id="app">
+      <div id="app">
         <main class="py-4">
-            @yield('content')
+        @if(empty(trim($__env->yieldContent('content'))))
+            <script>window.location.href = "{{ route('dashboard') }}";</script>
+        @else
+            @yield('content')  
+        @endif
         </main>
     </div>
 

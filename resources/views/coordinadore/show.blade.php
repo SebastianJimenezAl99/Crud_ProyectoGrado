@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('template_title')
-    {{ $estudiante->name ?? "{{ __('Show') Estudiante" }}
+    {{ $coordinadore->name ?? "{{ __('Show') Coordinadore" }}
 @endsection
 
 @section('content')
@@ -11,51 +11,48 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="float-left">
-                            <span class="card-title">{{ __('Show') }} Estudiante</span>
+                            <span class="card-title">Coordinador</span>
+                            <br>
+                            <span class="card-title">Código:  {{ $coordinadore->id }}</span>
+                           
                         </div>
                     </div>
 
                     <div class="card-body">
                         
                         <div class="form-group">
-                            <strong>Nroidentificacion:</strong>
-                            {{ $estudiante->nroIdentificacion }}
-                        </div>
-                        <div class="form-group">
-                            <strong>Tipoidentificacion:</strong>
-                            {{ $estudiante->tipoIdentificacion }}
+                            <strong>Cedula:</strong>
+                            {{ $coordinadore->cedula }}
                         </div>
                         <div class="form-group">
                             <strong>Nombre:</strong>
-                            {{ $estudiante->nombre }}
+                            {{ $coordinadore->nombre }}
                         </div>
                         <div class="form-group">
                             <strong>Apellido:</strong>
-                            {{ $estudiante->apellido }}
+                            {{ $coordinadore->apellido }}
                         </div>
                         <div class="form-group">
                             <strong>Email:</strong>
-                            {{ $estudiante->email }}
+                            {{ $coordinadore->email }}
                         </div>
                         <div class="form-group">
                             <strong>Telefono:</strong>
-                            {{ $estudiante->telefono }}
+                            {{ $coordinadore->telefono }}
                         </div>
                         <div class="form-group">
                             <strong>Carrera:</strong>
-                            {{ $estudiante->carrera }}
-                        </div>
-                        <div class="form-group">
-                            <strong>Semestre:</strong>
-                            {{ $estudiante->semestre }}
+                            {{ $coordinadore->carrera }}
                         </div>
 
                     </div>
+                    
                 </div>
                 <br>
+
                 <div class="float-right">
-                    <a class="btn btn-primary" href="{{ route('estudiantes.index') }}"> {{ __('Volver') }}</a>
-                </div>
+                        <a class="btn btn-secondary" href="{{ route('coordinadores.index') }}"> {{ __('Volver') }}</a>
+                    </div>
             </div>
         </div>
     </section>

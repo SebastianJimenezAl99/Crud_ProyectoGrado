@@ -27,28 +27,28 @@
                     <p>{{ $message }}</p>
                 </div>
                 @endif
-
-                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3">
-                    @foreach ($carreras as $carrera)
-                    <div class="col mb-4">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">Carrera {{ $carrera->id }}</h5>
-                                <p class="card-text"><strong>Código:</strong> {{ $carrera->id }}</p>
-                                <p class="card-text"><strong>Nombre:</strong> {{ $carrera->nombre }}</p>
-                                <form action="{{ route('carreras.destroy', $carrera->id) }}" method="POST">
-                                    <a class="btn btn-primary" href="{{ route('carreras.show', $carrera->id) }}"><i class="fa fa-fw fa-eye"></i> {{ __('Show') }}</a>
-                                    <a class="btn btn-success" href="{{ route('carreras.edit', $carrera->id) }}"><i class="fa fa-fw fa-edit"></i> {{ __('Edit') }}</a>
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger"><i class="fa fa-fw fa-trash"></i> {{ __('Delete') }}</button>
-                                </form>
+                <div class="card-body">
+                    <div class="row ">
+                        @foreach ($carreras as $carrera)
+                        <div class="col-md-4 mb-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Carrera {{ $carrera->id }}</h5>
+                                    <p class="card-text"><strong>Código:</strong> {{ $carrera->id }}</p>
+                                    <p class="card-text"><strong>Nombre:</strong> {{ $carrera->nombre }}</p>
+                                    <form action="{{ route('carreras.destroy', $carrera->id) }}" method="POST">
+                                        <a class="btn btn-primary" href="{{ route('carreras.show', $carrera->id) }}"><i class="fa fa-fw fa-eye"></i> {{ __('Show') }}</a>
+                                        <a class="btn btn-success" href="{{ route('carreras.edit', $carrera->id) }}"><i class="fa fa-fw fa-edit"></i> {{ __('Edit') }}</a>
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger"><i class="fa fa-fw fa-trash"></i> {{ __('Delete') }}</button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
+                        @endforeach
                     </div>
-                    @endforeach
                 </div>
-
             </div>
             {!! $carreras->links() !!}
         </div>

@@ -11,22 +11,16 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="float-left">
-                            <span class="card-title">{{ __('Show') }} Profesore</span>
+                            <span class="card-title">{{ __('Show') }} Profesor</span>
                         </div>
-                        <div class="float-right">
-                            <a class="btn btn-primary" href="{{ route('profesores.index') }}"> {{ __('Back') }}</a>
-                        </div>
+                        
                     </div>
 
                     <div class="card-body">
                         
                         <div class="form-group">
-                            <strong>Nroidentificacion:</strong>
-                            {{ $profesore->nroIdentificacion }}
-                        </div>
-                        <div class="form-group">
-                            <strong>Tipoidentificacion:</strong>
-                            {{ $profesore->tipoIdentificacion }}
+                            <strong>Cedula:</strong>
+                            {{ $profesore->cedula }}
                         </div>
                         <div class="form-group">
                             <strong>Nombre:</strong>
@@ -45,15 +39,15 @@
                             {{ $profesore->telefono }}
                         </div>
                         <div class="form-group">
-                            <strong>Semestre:</strong>
-                            {{ $profesore->semestre }}
-                        </div>
-                        <div class="form-group">
-                            <strong>Idcarrera:</strong>
-                            {{ $profesore->idCarrera }}
+                            <strong>Carrera:</strong>
+                            {{ $profesore->carrera }}
                         </div>
 
                     </div>
+                </div>
+                <br>
+                <div class="float-right">
+                    <a class="btn btn-secondary" href="{{ route('profesores.index') }}"> {{ __('Volver') }}</a>
                 </div>
             </div>
         </div>
