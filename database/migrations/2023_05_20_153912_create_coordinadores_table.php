@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('apellido', 100);
             $table->string('email', 100)->unique()->nullable();
             $table->string('telefono', 10)->unique()->nullable();
-            $table->bigInteger('idCarrera')->unsigned();
+            $table->bigInteger('idCarrera')->unsigned()->unique();
             $table->timestamps();
             
             $table->foreign('idCarrera')->references('id')->on('carreras');
@@ -30,6 +30,10 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('coodinadores');
+        Schema::table('coordinadores', function (Blueprint $table){
+            $table->dropForeign(['idCarrera']);
+        });
+
+        Schema::dropIfExists('coordinadores');
     }
 };

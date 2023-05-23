@@ -21,39 +21,44 @@
 <body>
     @if(Auth::check())
     <header class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
+        <div>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
+                <span class="navbar-toggler-icon"></span>Menu
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
+                <div class="navbar-nav">
+                    <div class="nav-item">
                         <a class="nav-link" href="{{ route('dashboard') }}">Dashboard</a>
-                    </li>
-                    <li class="nav-item">
+                    </div>
+                    <div class="nav-item">
                         <a class="nav-link" href="{{ route('coordinadores.index') }}">Coordinadores</a>
-                    </li>
-                    <li class="nav-item">
+                    </div>
+                    <div class="nav-item">
                         <a class="nav-link" href="{{ route('estudiantes.index') }}">Estudiantes</a>
-                    </li>
-                    <li class="nav-item">
+                    </div>
+                    <div class="nav-item">
                         <a class="nav-link" href="{{ route('profesores.index') }}">Profesores</a>
-                    </li>
-                    <li class="nav-item">
+                    </div>
+                    <div class="nav-item">
                         <a class="nav-link" href="{{ route('carreras.index') }}">Carreras</a>
-                    </li>
-                </ul>
-                <ul class="navbar-nav mx-auto">
-                    <li class="nav-item">
-                        <form action="{{ route('logout') }}" method="POST">
-                            @csrf
-                            <button type="submit" class="nav-link btn btn-link">{{ Auth::user()->name }} -Cerrar sesión</button>
-                        </form>
-                    </li>
-                </ul>
+                    </div>
+                    <div class="nav-item">
+                        <a class="nav-link" href="{{ route('proyectos.index') }}">Proyectos</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="navbar-nav ml-auto">
+            <div class="nav-item">
+                <form action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="nav-link btn btn-link">{{ Auth::user()->name }} - Cerrar sesión</button>
+                </form>
             </div>
         </div>
     </header>
+    
+    
     
     
     @endif

@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Carrera;
 use App\Models\Estudiante;
 use Illuminate\Http\Request;
+use App\Models\Carrera;
 
 /**
  * Class EstudianteController
@@ -25,8 +25,7 @@ class EstudianteController extends Controller
             $estudiante->carrera = Carrera::find($estudiante->idCarrera)->nombre;
         }
 
-        return view('estudiante.index', compact('estudiantes'))
-            ->with('i', (request()->input('page', 1) - 1) * $estudiantes->perPage());
+        return view('estudiante.index', compact('estudiantes'));
     }
 
     /**
@@ -36,9 +35,9 @@ class EstudianteController extends Controller
      */
     public function create()
     {
-        $carreras = Carrera::all();
         $estudiante = new Estudiante();
-        return view('estudiante.create', compact('estudiante', 'carreras'));
+        $carreras = Carrera::all();
+        return view('estudiante.create', compact('estudiante','carreras'));
     }
 
     /**
@@ -66,7 +65,7 @@ class EstudianteController extends Controller
     public function show($id)
     {
         $estudiante = Estudiante::find($id);
-        $estudiante->carrera = Carrera::find($estudiante->idCarrera)->nombre;
+
         return view('estudiante.show', compact('estudiante'));
     }
 
@@ -80,8 +79,7 @@ class EstudianteController extends Controller
     {
         $estudiante = Estudiante::find($id);
         $carreras = Carrera::all();
-
-        return view('estudiante.edit', compact('estudiante', 'carreras'));
+        return view('estudiante.edit', compact('estudiante','carreras'));
     }
 
     /**
