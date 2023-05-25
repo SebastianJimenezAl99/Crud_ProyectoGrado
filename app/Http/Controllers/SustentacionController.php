@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Sustentacion;
+use App\Models\Proyecto;
+use App\Models\Profesore;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 /**
  * Class SustentacionController
@@ -20,6 +23,12 @@ class SustentacionController extends Controller
     {
         $sustentacions = Sustentacion::paginate();
 
+        foreach ($sustentacions as $sustentacion) {
+            $proyecto = Proyecto::find($sustentacion->idProyecto);
+            $sustentacion->proyecto = $proyecto;
+
+        }
+
         return view('sustentacion.index', compact('sustentacions'))
             ->with('i', (request()->input('page', 1) - 1) * $sustentacions->perPage());
     }
@@ -32,7 +41,9 @@ class SustentacionController extends Controller
     public function create()
     {
         $sustentacion = new Sustentacion();
-        return view('sustentacion.create', compact('sustentacion'));
+        $proyectos = Proyecto::all();
+        $profesores = Profesore::all();
+        return view('sustentacion.create', compact('sustentacion', 'proyectos','profesores'));
     }
 
     /**
@@ -43,6 +54,17 @@ class SustentacionController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'idJurado1' => 'different:idJurado2',
+            'idJurado2' => 'different:idJurado1',
+            'idProyecto' => [
+                Rule::unique('sustentacions')->where(function ($query) use ($request) {
+                    return $query->where('idProyecto', $request->idProyecto);
+                }),
+            ],
+        ], [
+            'idProyecto.unique' => 'El proyecto ya tiene programada una sustentación.',
+        ]);
         request()->validate(Sustentacion::$rules);
 
         $sustentacion = Sustentacion::create($request->all());
@@ -60,6 +82,14 @@ class SustentacionController extends Controller
     public function show($id)
     {
         $sustentacion = Sustentacion::find($id);
+        $proyecto = Proyecto::find($sustentacion->idProyecto);
+        $sustentacion->proyecto = $proyecto->id.' - '.$proyecto->titulo;
+
+        $profesor1 = Profesore::find($sustentacion->idJurado1);
+        $profesor2 = Profesore::find($sustentacion->idJurado2);
+
+        $sustentacion->jurado1 =$profesor1->apellido.' '.$profesor1->nombre;
+        $sustentacion->jurado2 =$profesor2->apellido.' '. $profesor2->nombre;
 
         return view('sustentacion.show', compact('sustentacion'));
     }
@@ -73,8 +103,10 @@ class SustentacionController extends Controller
     public function edit($id)
     {
         $sustentacion = Sustentacion::find($id);
-
-        return view('sustentacion.edit', compact('sustentacion'));
+        $proyectos = Proyecto::all();
+        $profesores = Profesore::all();
+        
+        return view('sustentacion.edit',  compact('sustentacion', 'proyectos','profesores'));
     }
 
     /**
@@ -86,6 +118,17 @@ class SustentacionController extends Controller
      */
     public function update(Request $request, Sustentacion $sustentacion)
     {
+        $request->validate([
+            'idJurado1' => 'different:idJurado2',
+            'idJurado2' => 'different:idJurado1',
+            'idProyecto' => [
+                Rule::unique('sustentacions')->where(function ($query) use ($request) {
+                    return $query->where('idProyecto', $request->idProyecto);
+                }),
+            ],
+        ], [
+            'idProyecto.unique' => 'El proyecto ya tiene programada una sustentación.',
+        ]);
         request()->validate(Sustentacion::$rules);
 
         $sustentacion->update($request->all());
@@ -107,3 +150,5 @@ class SustentacionController extends Controller
             ->with('success', 'Sustentacion deleted successfully');
     }
 }
+
+

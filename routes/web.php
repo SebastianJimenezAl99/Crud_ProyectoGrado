@@ -1,11 +1,13 @@
 <?php
 
+use App\Http\Controllers\CalificacionController;
 use App\Http\Controllers\CarreraController;
 use App\Http\Controllers\CoordinadoreController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EstudianteController;
 use App\Http\Controllers\ProfesoreController;
 use App\Http\Controllers\ProyectoController;
+use App\Http\Controllers\SustentacionController;
 use App\Http\Controllers\TutoriaController;
 use Illuminate\Support\Facades\Auth;
 /*
@@ -47,6 +49,8 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('profesores',ProfesoreController::class);
         Route::resource('proyectos',ProyectoController::class);
         Route::resource('tutorias', TutoriaController::class);
+        Route::resource('sustentacions', SustentacionController::class);
+        Route::resource('calificacions', CalificacionController::class);
         Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
     });
 });

@@ -48,7 +48,7 @@ class Sustentacion extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function profesore()
+    public function profesore2()
     {
         return $this->hasOne('App\Models\Profesore', 'id', 'idJurado2');
     }

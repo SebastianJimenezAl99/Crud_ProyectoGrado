@@ -56,6 +56,12 @@
                     <div class="nav-item">
                         <a class="nav-link" href="{{ route('tutorias.index') }}">Tutorias</a>
                     </div>
+                    <div class="nav-item">
+                        <a class="nav-link" href="{{ route('sustentacions.index') }}">Sustentaciones</a>
+                    </div>
+                    <div class="nav-item">
+                        <a class="nav-link" href="{{ route('calificacions.index') }}">Calificaciones</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -68,10 +74,6 @@
             </div>
         </div>
     </header>
-    
-    
-    
-    
     @endif
     <div id="app">
         <main class="py-4">
@@ -82,7 +84,6 @@
         @endif
         </main>
     </div>
-
     <!-- Bibliotecas de Bootstrap y jQuery -->
     <script src="{{ asset('../resources/js/app.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -110,6 +111,7 @@
     $(document).ready(function() {
         $('#estadoModal').modal('hide'); // Ocultar el modal al cargar la página
     });
+    
     </script>
 </body>
 </html>

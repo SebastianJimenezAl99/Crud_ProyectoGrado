@@ -30,15 +30,15 @@
                         </div>
                         <div class="form-group">
                             <strong>Idproyecto:</strong>
-                            {{ $sustentacion->idProyecto }}
+                            {{ $sustentacion->proyecto }}
                         </div>
                         <div class="form-group">
                             <strong>Idjurado1:</strong>
-                            {{ $sustentacion->idJurado1 }}
+                            {{ $sustentacion->jurado1 }}
                         </div>
                         <div class="form-group">
                             <strong>Idjurado2:</strong>
-                            {{ $sustentacion->idJurado2 }}
+                            {{ $sustentacion->jurado2 }}
                         </div>
                         <div class="form-group">
                             <strong>Comentario:</strong>
