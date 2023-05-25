@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EstudianteController;
 use App\Http\Controllers\ProfesoreController;
 use App\Http\Controllers\ProyectoController;
+use App\Http\Controllers\TutoriaController;
 use Illuminate\Support\Facades\Auth;
 /*
 |--------------------------------------------------------------------------
@@ -45,6 +46,7 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('carreras',CarreraController::class);
         Route::resource('profesores',ProfesoreController::class);
         Route::resource('proyectos',ProyectoController::class);
+        Route::resource('tutorias', TutoriaController::class);
         Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
     });
 });

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Proyecto;
 use Illuminate\Http\Request;
+use App\Models\Estudiante;
+use App\Models\Profesore;
 
 /**
  * Class ProyectoController
@@ -20,6 +22,15 @@ class ProyectoController extends Controller
     {
         $proyectos = Proyecto::paginate();
 
+        foreach ($proyectos as $proyecto) {
+            $estudiante1 = Estudiante::find($proyecto->idEstudiante_p);
+            $estudiante2 = Estudiante::find($proyecto->idEstudiante_p2);
+            
+
+            $profesor = Profesore::find($proyecto->idTutor);
+            $proyecto->profesor = $profesor->nombre;
+        }
+
         return view('proyecto.index', compact('proyectos'))
             ->with('i', (request()->input('page', 1) - 1) * $proyectos->perPage());
     }
@@ -32,7 +43,9 @@ class ProyectoController extends Controller
     public function create()
     {
         $proyecto = new Proyecto();
-        return view('proyecto.create', compact('proyecto'));
+        $estudiantes = Estudiante::paginate();
+        $profesores = Profesore::paginate();
+        return view('proyecto.create', compact('proyecto', 'estudiantes', 'profesores'));
     }
 
     /**
@@ -42,7 +55,51 @@ class ProyectoController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
+    {   
+        $request->validate([
+            
+            'idEstudiante_p' => [
+                'required',
+                'exists:estudiantes,id',
+                function ($attribute, $value, $fail) use ($request) {
+                    // Validar si el estudiante ya está relacionado con otro proyecto
+                    $existingProject = Proyecto::where(function ($query) use ($value) {
+                        $query->where('idEstudiante_p', $value)
+                            ->orWhere('idEstudiante_p2', $value);
+                    })
+                    ->first();
+    
+                    if ($existingProject) {
+                        $fail('El estudiante ya está relacionado con otro proyecto.');
+                    }
+                },
+                function ($attribute, $value, $fail) use ($request) {
+                    // Validar si se seleccionó el mismo estudiante en los campos Estudiante 1 y Estudiante 2
+                    $estudiante2 = $request->input('idEstudiante_p2');
+                    if ($estudiante2 && $value == $estudiante2) {
+                        $fail('No se puede seleccionar el mismo estudiante en los campos Estudiante 1 y Estudiante 2.');
+                    }
+                }
+            ],
+    
+            'idEstudiante_p2' => [
+                'nullable',
+                'different:idEstudiante_p',
+                function ($attribute, $value, $fail) use ($request) {
+                    // Validar si el estudiante 2 ya está relacionado con otro proyecto
+                    $existingProject = Proyecto::where(function ($query) use ($value) {
+                        $query->where('idEstudiante_p', $value)
+                            ->orWhere('idEstudiante_p2', $value);
+                    })
+                    ->first();
+    
+                    if ($existingProject) {
+                        $fail('El estudiante 2 ya está relacionado con otro proyecto.');
+                    }
+                }
+            ]
+            
+        ]);
         request()->validate(Proyecto::$rules);
 
         $proyecto = Proyecto::create($request->all());
@@ -61,8 +118,22 @@ class ProyectoController extends Controller
     {
         $proyecto = Proyecto::find($id);
 
+        $estudiante1 = Estudiante::find($proyecto->idEstudiante_p);
+        $proyecto->estudiante1 = $estudiante1->nroIdentificacion.' - '.$estudiante1->apellido.' '.$estudiante1->nombre;
+
+        $estudiante2 = Estudiante::find($proyecto->idEstudiante_p2);
+        if ($estudiante2) {
+            $proyecto->estudiante2 = $estudiante2->nroIdentificacion.' - '.$estudiante2->apellido.' '.$estudiante2->nombre;
+        } else {
+            $proyecto->estudiante2 = '';
+        }
+
+        $profesor = Profesore::find($proyecto->idTutor);
+        $proyecto->profesor = $profesor->apellido.' '.$profesor->nombre;
+
         return view('proyecto.show', compact('proyecto'));
     }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -73,8 +144,9 @@ class ProyectoController extends Controller
     public function edit($id)
     {
         $proyecto = Proyecto::find($id);
-
-        return view('proyecto.edit', compact('proyecto'));
+        $estudiantes = Estudiante::paginate();
+        $profesores = Profesore::paginate();
+        return view('proyecto.edit', compact('proyecto', 'estudiantes', 'profesores'));
     }
 
     /**
@@ -85,7 +157,51 @@ class ProyectoController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Proyecto $proyecto)
-    {
+    {   
+        $request->validate([
+            'idEstudiante_p' => [
+                'required',
+                'exists:estudiantes,id',
+                function ($attribute, $value, $fail) use ($request, $proyecto) {
+                    // Validar si el estudiante ya está relacionado con otro proyecto (excluyendo el proyecto actual)
+                    $existingProject = Proyecto::where(function ($query) use ($value, $proyecto) {
+                        $query->where('idEstudiante_p', $value)
+                            ->orWhere('idEstudiante_p2', $value);
+                    })
+                    ->where('id', '!=', $proyecto->id)
+                    ->first();
+    
+                    if ($existingProject) {
+                        $fail('El estudiante ya está relacionado con otro proyecto.');
+                    }
+                },
+                function ($attribute, $value, $fail) use ($request, $proyecto) {
+                    // Validar si se seleccionó el mismo estudiante en los campos Estudiante 1 y Estudiante 2
+                    $estudiante2 = $request->input('idEstudiante_p2');
+                    if ($estudiante2 && $value == $estudiante2) {
+                        $fail('No se puede seleccionar el mismo estudiante en los campos Estudiante 1 y Estudiante 2.');
+                    }
+                }
+            ],
+    
+            'idEstudiante_p2' => [
+                'nullable',
+                'different:idEstudiante_p',
+                function ($attribute, $value, $fail) use ($request, $proyecto) {
+                    // Validar si el estudiante 2 ya está relacionado con otro proyecto (excluyendo el proyecto actual)
+                    $existingProject = Proyecto::where(function ($query) use ($value, $request, $proyecto) {
+                        $query->where('idEstudiante_p', $value)
+                            ->orWhere('idEstudiante_p2', $value);
+                    })
+                    ->where('id', '!=', $proyecto->id)
+                    ->first();
+    
+                    if ($existingProject) {
+                        $fail('El estudiante 2 ya está relacionado con otro proyecto.');
+                    }
+                }
+            ]
+        ]);
         request()->validate(Proyecto::$rules);
 
         $proyecto->update($request->all());

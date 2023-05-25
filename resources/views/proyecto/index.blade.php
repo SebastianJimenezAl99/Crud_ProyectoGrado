@@ -35,8 +35,8 @@
                             <div class="col-md-4 mb-3">
                                 <div class="card">
                                     <div class="card-body">
-                                        <h5 class="card-title">{{ $proyecto->titulo }}</h5>
-                                        <p class="card-text">{{ $proyecto->descripcion }}</p>
+                                        <h4 class="card-title">Codigo: {{$proyecto->id}}</h4>
+                                        <h5>Titulo: {{ $proyecto->titulo }}</h5>
                                         <p class="card-text">{{ $proyecto->estado }}</p>
                                         <a href="{{ route('proyectos.show',$proyecto->id) }}" class="btn btn-primary btn-sm"><i class="fa fa-fw fa-eye"></i> {{ __('Show') }}</a>
                                         <a href="{{ route('proyectos.edit',$proyecto->id) }}" class="btn btn-success btn-sm"><i class="fa fa-fw fa-edit"></i> {{ __('Edit') }}</a>

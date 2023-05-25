@@ -14,6 +14,14 @@
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link href="{{ asset('../resources/css/app.css') }}" rel="stylesheet">
+    <!-- CSS de Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
+    <!-- Biblioteca de jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- JavaScript de Bootstrap -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
@@ -44,6 +52,9 @@
                     </div>
                     <div class="nav-item">
                         <a class="nav-link" href="{{ route('proyectos.index') }}">Proyectos</a>
+                    </div>
+                    <div class="nav-item">
+                        <a class="nav-link" href="{{ route('tutorias.index') }}">Tutorias</a>
                     </div>
                 </div>
             </div>
@@ -81,6 +92,24 @@
             e.preventDefault();
             $("#wrapper").toggleClass("toggled");
         });
+        //chech de form proyecti
+        function toggleEstudianteP2(checked) {
+            var estudianteP2Select = document.getElementById('idEstudiante_p2');
+            estudianteP2Select.disabled = !checked;
+        }
+        //modal de form proyecto
+        $(document).ready(function() {
+        $('#estadoModal').on('shown.bs.modal', function() {
+            $(this).find('.modal-dialog').css({
+                width: 'auto',
+                height: 'auto',
+                'max-height': '80%'
+            });
+        });
+    });
+    $(document).ready(function() {
+        $('#estadoModal').modal('hide'); // Ocultar el modal al cargar la página
+    });
     </script>
 </body>
 </html>
